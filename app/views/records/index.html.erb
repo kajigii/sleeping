@@ -1,2 +1,38 @@
-<h1>Records#index</h1>
-<p>Find me in app/views/records/index.html.erb</p>
+<%= form_with model: @record, url: records_path, class: 'form' do |f| %>
+  <%= f.label :日付を選択, class: 'label' %>
+  <%= f.date_field :date, class: 'date-select' %>
+
+  <%= f.label :就寝時間を入力, class: 'label' %>
+  <%= f.time_field :bedtime, class: 'text-input' %>
+
+  <%= f.label :起床時間を入力, class: 'label' %>
+  <%= f.time_field :wake_up_time, class: 'text-input' %>
+
+  <%= f.submit '保存' %>
+<% end %>
+
+<%# 睡眠時間を計算し、カレンダーに表示 %>
+<div class='calendar'>
+  <% @week_days.each do |day| %>
+    <div class='item'>
+      <div class='date'>
+        <%= day[:month] %>/<%= day[:date] %><%= day[:wday] %>
+      </div>
+      <ul class='content'>
+        <% if day[:records].length != 0 %>
+          <% day[:records].each do |record| %>
+            <li class='time-list'>・<%= record %></li>
+          <% end %>
+
+          <% # 起床時間と就寝時間が設定されている場合、睡眠時間を計算して表示 %>
+          <% if day[:wakeup_time].present? && day[:bedtime].present? %>
+            <% sleep_duration = (day[:wakeup_time] - day[:bedtime]).abs / 3600 %>
+            <li class='time-list'>就寝時間: <%= day[:bedtime].strftime('%H:%M') %></li>
+            <li class='time-list'>起床時間: <%= day[:wakeup_time].strftime('%H:%M') %></li>
+            <li class='time-list'>睡眠時間: <%= sleep_duration.round(2) %> 時間</li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
