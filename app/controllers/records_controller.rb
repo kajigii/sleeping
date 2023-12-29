@@ -2,13 +2,25 @@ class RecordsController < ApplicationController
   def index
     get_week
     @record = Record.new
+    @records = Record.all
   end
 
   # 予定の保存
   def create
     @record = Record.new(record_params)
-    redirect_to action: :index
+    Record.create(record_params)
+    if @record.save
+      redirect_to action: :index
+    else
+      # 保存が失敗した場合の処理（例: エラーメッセージの表示など）
+      render :index
+    end
   end
+
+  def show
+    @record = Record.find(params[:date])
+  end
+
 
   private
 
