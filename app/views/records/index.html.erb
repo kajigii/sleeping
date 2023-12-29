@@ -12,26 +12,19 @@
 <% end %>
 
 <%# 睡眠時間を計算し、カレンダーに表示 %>
+
 <div class='calendar'>
-  <% @week_days.each do |day| %>
-    <div class='item'>
+  <%#  日付表示%>
+  <%  @records.each do |record| %>
+    <div class= 'item'>
       <div class='date'>
-        <%= day[:month] %>/<%= day[:date] %><%= day[:wday] %>
+        <%= record.date%>
       </div>
       <ul class='content'>
-        <% if day[:records].length != 0 %>
-          <% day[:records].each do |record| %>
-            <li class='time-list'>・<%= record %></li>
-          <% end %>
-
-          <% # 起床時間と就寝時間が設定されている場合、睡眠時間を計算して表示 %>
-          <% if day[:wakeup_time].present? && day[:bedtime].present? %>
-            <% sleep_duration = (day[:wakeup_time] - day[:bedtime]).abs / 3600 %>
-            <li class='time-list'>就寝時間: <%= day[:bedtime].strftime('%H:%M') %></li>
-            <li class='time-list'>起床時間: <%= day[:wakeup_time].strftime('%H:%M') %></li>
-            <li class='time-list'>睡眠時間: <%= sleep_duration.round(2) %> 時間</li>
-          <% end %>
-        <% end %>
+        <li><strong>就寝時間：</strong> <%= record.bedtime.strftime("%H:%M") %></li>
+        <li><strong>起床時間：</strong> <%= record.wake_up_time.strftime("%H:%M") %></li>
+        <%# 計算式記入後修正 %>
+        <li><strong>睡眠時間：</strong> <% record.wake_up_time.strftime("%H:%M") %></li>
       </ul>
     </div>
   <% end %>

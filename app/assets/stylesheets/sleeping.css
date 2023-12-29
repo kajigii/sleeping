@@ -14,8 +14,8 @@ body {
 .item {
   margin: 0.5vw;
   border: medium solid rgb(0, 0, 0);
-  width: 12vw;
-  height: auto;
+  width: 15vw;
+  height: 20vh;
   background-color: rgb(246, 253, 255);
 }
 
@@ -30,9 +30,8 @@ body {
 
 .content {
   min-height: 25vh;
-  padding: 5px;
+  padding-left: 20px;
   white-space: nowrap;
-  overflow: scroll;
 }
 
 .plan-list {
