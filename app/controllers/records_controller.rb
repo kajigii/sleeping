@@ -1,26 +1,33 @@
 class RecordsController < ApplicationController
   def index
-    get_week
-    @record = Record.new
     @records = Record.all
+    @record = Record.new
+    # 各レコードに対して time_of_sleeping を計算してセット
+    @records.each do |record|
+      record.instance_variable_set(:@time_of_sleeping, calculate_time_of_sleeping(record.bedtime, record.wake_up_time))
+    end
   end
 
-  # 予定の保存
   def create
+    # フォームから送信されたデータを使って新しいRecordオブジェクトを作成
     @record = Record.new(record_params)
-    Record.create(record_params)
+
     if @record.save
-      redirect_to action: :index
+      # レコード保存成功時に time_of_sleeping を計算してセット
+      @record.time_of_sleeping = calculate_time_of_sleeping(@record.bedtime, @record.wake_up_time)
+      @record.save # 更新内容を保存
     else
-      # 保存が失敗した場合の処理（例: エラーメッセージの表示など）
-      render :index
+      # レコード保存失敗時の処理
     end
+
+    # 保存が成功した場合は、再度全てのレコードを取得し直す
+    @records = Record.all
+    render :index
   end
 
   def show
     @record = Record.find(params[:date])
   end
-
 
   private
 
@@ -28,30 +35,23 @@ class RecordsController < ApplicationController
     params.require(:record).permit(:date, :bedtime, :wake_up_time)
   end
 
-  def get_week
-    wdays = ['(日)','(月)','(火)','(水)','(木)','(金)','(土)']
-
-    # Dateオブジェクトは、日付を保持しています。下記のように`.today.day`とすると、今日の日付を取得できます。
-    @todays_date = Date.today
-    # 例)　今日が2月1日の場合・・・ Date.today.day => 1日
-
-    @week_days = []
-
-    records = Record.where(date: @todays_date..@todays_date + 6)
-
-    7.times do |x|
-      today_records = []
-      records.each do |record|
-        today_records.push(record) if record.date == @todays_date + x
-      end
-      wday_num = Date.today.wday
-      if wday_num >= 7
-        wday_num = wday_num -7
-      end
-
-      days = { month: (@todays_date + x).month, date: (@todays_date + x).day, records: today_records, wday: wdays[(@todays_date + x).wday]}
-      @week_days.push(days)
+  def calculate_time_of_sleeping(bedtime, wake_up_time)
+    # 入力された bedtime と wake_up_time を分単位に変換
+    bedtime_minutes = (bedtime.hour * 60) + bedtime.min
+    wake_up_minutes = (wake_up_time.hour * 60) + wake_up_time.min
+  
+    # 入眠時間が12:00より後
+    if bedtime_minutes > 12 * 60
+      x = bedtime_minutes - 12 * 60
+      y = wake_up_minutes + 12 * 60
+      time_of_sleeping = y - x
+    else
+      x = bedtime_minutes + 12 * 60
+      y = wake_up_minutes + 12 * 60
+      time_of_sleeping = y - x
     end
-
+  
+    # 結果を返す
+    time_of_sleeping
   end
 end
