@@ -24,8 +24,7 @@
         <li><strong>就寝時間：</strong> <%= record.bedtime.strftime("%H:%M") %></li>
         <li><strong>起床時間：</strong> <%= record.wake_up_time.strftime("%H:%M") %></li>
         <%# 計算式記入後修正 %>
-        <li><strong>睡眠時間：</strong> <% record.wake_up_time.strftime("%H:%M") %></li>
-      </ul>
+        <li><strong>睡眠時間：</strong> <%= record.instance_variable_get(:@time_of_sleeping) %> 分</li>
     </div>
   <% end %>
 </div>

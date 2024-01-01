@@ -15,6 +15,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_23_105527) do
     t.date "date", null: false
     t.time "bedtime", null: false
     t.time "wake_up_time", null: false
+    t.integer "time_of_sleeping"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
