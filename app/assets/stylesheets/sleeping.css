@@ -9,6 +9,7 @@ body {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .item {
@@ -17,6 +18,7 @@ body {
   width: 15vw;
   height: 20vh;
   background-color: rgb(246, 253, 255);
+  white-space: nowrap; /* データが横に並ぶように設定 */
 }
 
 .date {

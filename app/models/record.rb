@@ -25,6 +25,3 @@ class Record < ApplicationRecord
     time_of_sleeping
   end
 end
-
-
-

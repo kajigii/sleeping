@@ -14,6 +14,7 @@
 <%# 睡眠時間を計算し、カレンダーに表示 %>
 
 <div class='calendar'>
+  <button id="scroll-left">←</button>
   <%#  日付表示%>
   <%  @records.each do |record| %>
     <div class= 'item'>
@@ -27,4 +28,5 @@
         <li><strong>睡眠時間：</strong> <%= record.instance_variable_get(:@time_of_sleeping) %> 分</li>
     </div>
   <% end %>
+  <button id="scroll-right">→</button>
 </div>
