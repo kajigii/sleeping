@@ -7,7 +7,7 @@ body {
   margin-top: 15vh;
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   flex-wrap: wrap;
   overflow: hidden;
   flex-direction: row-reverse;
