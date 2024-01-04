@@ -7,18 +7,20 @@ body {
   margin-top: 15vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   flex-wrap: wrap;
   overflow: hidden;
+  flex-direction: row-reverse;
 }
 
 .item {
-  margin: 0.5vw;
+  margin: 0.2vw;
   border: medium solid rgb(0, 0, 0);
-  width: 15vw;
+  width: 13vw;
   height: 20vh;
   background-color: rgb(246, 253, 255);
   white-space: nowrap; /* データが横に並ぶように設定 */
+  
 }
 
 .date {
@@ -32,12 +34,12 @@ body {
 
 .content {
   min-height: 25vh;
-  padding-left: 20px;
+  padding: 0px;
   white-space: nowrap;
 }
 
-.plan-list {
-  margin: 1vh 0;
+li {
+  list-style: none;
 }
 
 .form {

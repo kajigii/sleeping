@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
   def index
-    @records = Record.all
+    @records = Record.order(created_at: :desc).limit(7)
     @record = Record.new
     # 各レコードに対して time_of_sleeping を計算してセット
     @records.each do |record|
@@ -15,14 +15,14 @@ class RecordsController < ApplicationController
     if @record.save
       # レコード保存成功時に time_of_sleeping を計算してセット
       @record.time_of_sleeping = calculate_time_of_sleeping(@record.bedtime, @record.wake_up_time)
-      @record.save # 更新内容を保存
+      # @record.save # 更新内容を保存
+      oldest_data = Record.order(created_at: :asc).first
     else
-      # レコード保存失敗時の処理
+      # 保存が成功した場合は、再度全てのレコードを取得し直す
+      @records = Record.all
+      render :index
     end
 
-    # 保存が成功した場合は、再度全てのレコードを取得し直す
-    @records = Record.all
-    render :index
   end
 
   def show

@@ -14,7 +14,7 @@
 <%# 睡眠時間を計算し、カレンダーに表示 %>
 
 <div class='calendar'>
-  <button id="scroll-left">←</button>
+  <button id="scroll-right">→</button>
   <%#  日付表示%>
   <%  @records.each do |record| %>
     <div class= 'item'>
@@ -22,11 +22,11 @@
         <%= record.date%>
       </div>
       <ul class='content'>
-        <li><strong>就寝時間：</strong> <%= record.bedtime.strftime("%H:%M") %></li>
-        <li><strong>起床時間：</strong> <%= record.wake_up_time.strftime("%H:%M") %></li>
+        <div><strong>就寝時間：</strong><%= record.bedtime.strftime("%H:%M") %></div>
+        <div><strong>起床時間：</strong><%= record.wake_up_time.strftime("%H:%M") %></div>
         <%# 計算式記入後修正 %>
-        <li><strong>睡眠時間：</strong> <%= record.instance_variable_get(:@time_of_sleeping) %> 分</li>
+        <div><strong>睡眠時間：</strong><%= record.instance_variable_get(:@time_of_sleeping) %>分</div>
     </div>
   <% end %>
-  <button id="scroll-right">→</button>
+  <button id="scroll-left">←</button>
 </div>
